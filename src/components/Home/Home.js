@@ -8,6 +8,7 @@ import Card from "@material-ui/core/Card";
 import CardMedia from "@material-ui/core/CardMedia";
 
 import useStyles from "./styles";
+import Title from "../Title/Title";
 
 export default function Home(props) {
   const classes = useStyles();
@@ -19,11 +20,12 @@ export default function Home(props) {
     "primary-action": "Sign up for free",
     "secondary-action": "Read more",
     video: "https://www.youtube.com/embed/OtDxDvCpPL4",
-    ...props.content,
+    ...props.content
   };
 
   return (
     <Container maxWidth="lg">
+      <Title title="Home" />
       <Grid container>
         <Grid item xs={12} lg={6}>
           <Box className={classes.contentBox}>

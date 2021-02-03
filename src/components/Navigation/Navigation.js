@@ -23,6 +23,8 @@ import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
 import useStyles from "./styles";
 import { useDispatch, useSelector } from "react-redux";
 import { signout } from "../../redux/user/user.actions";
+import { Menu, MenuItem } from "@material-ui/core";
+import { AccountCircle } from "@material-ui/icons";
 
 const routerName = {
   0: "home",
@@ -34,11 +36,15 @@ const HorizontalNav = (props) => {
   const classes = useStyles();
   const { userInfo, success } = useSelector((state) => state.user);
   const dispatch = useDispatch();
+  const [auth, setAuth] = React.useState(true);
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+
   const [state, setState] = useState(0);
 
   const [value, setValue] = React.useState(0);
 
-  const handleChange = (event, newValue) => {
+  const Profile = (event, newValue) => {
     setValue(newValue);
     props.history.push(`/${routerName[newValue]}`);
   };
@@ -71,6 +77,17 @@ const HorizontalNav = (props) => {
     props.history.push("/login");
   };
 
+  const handleProfileChange = (event) => {
+    setAuth(event.target.checked);
+  };
+
+  const handleMenu = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
   return (
     <AppBar position="static">
       <Toolbar className={classes.toolbar}>
@@ -112,7 +129,7 @@ const HorizontalNav = (props) => {
         <Tabs
           value={value}
           className={classes.tabs}
-          onChange={handleChange}
+          onChange={Profile}
           aria-label="simple tabs example"
         >
           <Tab
@@ -136,14 +153,36 @@ const HorizontalNav = (props) => {
           />
         </Tabs>
         {userInfo?.token ? (
-          <Button
-            color="default"
-            variant="contained"
-            onClick={handleSignout}
-            className={classes.loginButton}
-          >
-            Signout
-          </Button>
+          <div>
+            <IconButton
+              aria-label="account of current user"
+              aria-controls="menu-appbar"
+              aria-haspopup="true"
+              onClick={handleMenu}
+              color="inherit"
+            >
+              <AccountCircle />
+            </IconButton>
+            <Menu
+              id="menu-appbar"
+              anchorEl={anchorEl}
+              anchorOrigin={{
+                vertical: "top",
+                horizontal: "right"
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "right"
+              }}
+              open={open}
+              onClose={handleClose}
+            >
+              <MenuItem onClick={handleClose}>Profile</MenuItem>
+              <MenuItem onClick={handleClose}>My account</MenuItem>
+              <MenuItem onClick={handleSignout}>Signout</MenuItem>
+            </Menu>
+          </div>
         ) : (
           <Button
             color="default"

@@ -3,7 +3,7 @@ import React from "react";
 import Login from "../components/sign-in";
 import Title from "../components/Title/Title";
 
-export default function LoginPage() {
+export default function LoginPage(props) {
   return (
     <React.Fragment>
       <Title title="Login" />
@@ -13,8 +13,9 @@ export default function LoginPage() {
             text: "Dhanai Fruits",
             image: "mui-assets/img/logo-pied-piper.png",
             width: "200",
-            height: "50",
+            height: "50"
           },
+          ...props
         }}
       />
     </React.Fragment>

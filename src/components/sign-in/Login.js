@@ -105,7 +105,10 @@ export default function Login(props) {
               </Box>
               <Grid container spacing={2} className={classes.actions}>
                 <Grid item xs={12} sm={6}>
-                  <Link href="#" variant="body2">
+                  <Link
+                    onClick={() => content.history.push("/register")}
+                    variant="body2"
+                  >
                     {content["02_secondary-action"]}
                   </Link>
                 </Grid>
