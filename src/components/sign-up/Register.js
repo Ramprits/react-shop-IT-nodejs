@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
@@ -11,8 +11,13 @@ import useStyles from "./styles";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { userRegister } from "../../redux/user/user.actions";
+import { Avatar } from "@material-ui/core";
 export default function Register(props) {
   const classes = useStyles();
+  const [imagePreview, setImagePreview] = useState(
+    "mui-assets/img/profile.png"
+  );
+  const [avatar, setAvatar] = useState("");
   const { register, handleSubmit, errors } = useForm({
     reValidateMode: "onSubmit",
     defaultValues: {}
@@ -46,13 +51,26 @@ export default function Register(props) {
   } else {
     brand = content.brand.text || "Dhanai Fruit Mart";
   }
-  const onSubmit = ({ name, email, password, avatar }) => {
+  const onSubmit = ({ name, email, password }) => {
     const formData = new FormData();
     formData.set("name", name);
     formData.set("email", email);
     formData.set("password", password);
     formData.set("avatar", avatar);
     dispatch(userRegister(formData));
+  };
+  const handleFilePreview = (e) => {
+    e.preventDefault();
+    if (e.target.name === "avatar") {
+      const reader = new FileReader();
+      reader.onload = () => {
+        if (reader.readyState === 2) {
+          setImagePreview(reader.result);
+          setAvatar(reader.result);
+        }
+      };
+      reader.readAsDataURL(e.target.files[0]);
+    }
   };
 
   return (
@@ -123,6 +141,20 @@ export default function Register(props) {
                     inputRef={register({ required: true })}
                     label="Password"
                   />
+                </Grid>
+
+                <Grid item xs={12}>
+                  <div className={classes.avatar}>
+                    <Avatar src={imagePreview} alt="Avatar"></Avatar>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleFilePreview}
+                      className={classes.fileUpload}
+                      ref={register}
+                      name="avatar"
+                    />
+                  </div>
                 </Grid>
               </Grid>
               <Box my={2}>
