@@ -24,7 +24,7 @@ export const userLogin = (payload) => async (dispatch) => {
     dispatch(userLoginSuccess(data));
     history.push("/");
   } catch (error) {
-    dispatch(userLoginFailure(error.response && error.response.data.error));
+    dispatch(userLoginFailure(error.message));
   }
 };
 
