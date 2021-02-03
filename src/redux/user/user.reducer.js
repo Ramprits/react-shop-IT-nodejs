@@ -1,4 +1,8 @@
-import { userLoginTypes, userRegisterTypes } from "./user.constants";
+import {
+  userLoginTypes,
+  userRegisterTypes,
+  USER_SIGNOUT
+} from "./user.constants";
 
 const initialState = {
   userInfo: undefined,
@@ -28,7 +32,12 @@ export const authReducer = (state = initialState, { type, payload }) => {
         loading: false,
         errorMessage: payload
       });
-
+    case USER_SIGNOUT:
+      return Object.assign({}, state, {
+        userInfo: undefined,
+        loading: false,
+        errorMessage: ""
+      });
     default:
       return state;
   }

@@ -11,7 +11,8 @@ import useStyles from "./styles";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { userRegister } from "../../redux/user/user.actions";
-import { Avatar } from "@material-ui/core";
+import Avatar from "@material-ui/core/Avatar";
+
 export default function Register(props) {
   const classes = useStyles();
   const [imagePreview, setImagePreview] = useState(

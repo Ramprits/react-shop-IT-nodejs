@@ -11,12 +11,13 @@ import useStyles from "./styles";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { userLogin } from "../../redux/user/user.actions";
+
 export default function Login(props) {
   const classes = useStyles();
   const { register, handleSubmit, errors } = useForm({
     reValidateMode: "onSubmit",
     defaultValues: {
-      email: "Rampritsahani@gmail.com",
+      email: "rampritsahani@gmail.com",
       password: "Ramprit@1234"
     }
   });

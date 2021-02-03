@@ -1,6 +1,10 @@
 import axios from "axios";
 import history from "../../utils/history";
-import { userLoginTypes, userRegisterTypes } from "./user.constants";
+import {
+  userLoginTypes,
+  userRegisterTypes,
+  USER_SIGNOUT
+} from "./user.constants";
 
 export const userLoginStart = () => ({
   type: userLoginTypes.USER_LOGIN_START
@@ -53,3 +57,7 @@ export const userRegister = (payload) => async (dispatch) => {
     dispatch(userRegisterFailure(error.response && error.response.data.error));
   }
 };
+
+export const signout = () => ({
+  type: USER_SIGNOUT
+});

@@ -21,15 +21,19 @@ import LiveHelpIcon from "@material-ui/icons/LiveHelp";
 import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
 
 import useStyles from "./styles";
+import { useDispatch, useSelector } from "react-redux";
+import { signout } from "../../redux/user/user.actions";
 
 const routerName = {
   0: "home",
   1: "product",
-  2: "contact",
+  2: "contact"
 };
 
 const HorizontalNav = (props) => {
   const classes = useStyles();
+  const { userInfo, success } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
   const [state, setState] = useState(0);
 
   const [value, setValue] = React.useState(0);
@@ -61,6 +65,11 @@ const HorizontalNav = (props) => {
       setValue(2);
     }
   }, [value]);
+
+  const handleSignout = () => {
+    dispatch(signout());
+    props.history.push("/login");
+  };
 
   return (
     <AppBar position="static">
@@ -126,13 +135,25 @@ const HorizontalNav = (props) => {
             className={classes.tab}
           />
         </Tabs>
-        <Button
-          color="default"
-          variant="contained"
-          className={classes.loginButton}
-        >
-          Login
-        </Button>
+        {userInfo?.token ? (
+          <Button
+            color="default"
+            variant="contained"
+            onClick={handleSignout}
+            className={classes.loginButton}
+          >
+            Signout
+          </Button>
+        ) : (
+          <Button
+            color="default"
+            variant="contained"
+            onClick={() => props.history.push("/login")}
+            className={classes.loginButton}
+          >
+            Login
+          </Button>
+        )}
       </Toolbar>
       <Drawer anchor="left" open={state.open} onClose={toggleDrawer(false)}>
         <div className={classes.drawerContainer}>
