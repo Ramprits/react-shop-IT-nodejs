@@ -1,5 +1,4 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
@@ -9,16 +8,26 @@ import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 
 import useStyles from "./styles";
+import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
+import { userLogin } from "../../redux/user/user.actions";
 export default function Login(props) {
   const classes = useStyles();
-
+  const { register, handleSubmit, errors } = useForm({
+    reValidateMode: "onSubmit",
+    defaultValues: {
+      email: "Rampritsahani@gmail.com",
+      password: "Ramprit@1234"
+    }
+  });
+  const dispatch = useDispatch();
   const content = {
-    brand: { image: "mui-assets/img/logo-pied-piper-icon.png", width: 40 },
+    brand: { image: "mui-assets/img/logo.png", width: 120 },
     "02_header": "Sign in",
     "02_primary-action": "Sign in",
     "02_secondary-action": "Don't have an account?",
     "02_tertiary-action": "Forgot password?",
-    ...props.content,
+    ...props.content
   };
 
   let brand;
@@ -30,6 +39,9 @@ export default function Login(props) {
   } else {
     brand = content.brand.text || "";
   }
+  const onSubmit = ({ email, password }) => {
+    dispatch(userLogin({ email, password }));
+  };
 
   return (
     <section>
@@ -44,7 +56,7 @@ export default function Login(props) {
             </Typography>
           </Box>
           <Box>
-            <form noValidate>
+            <form noValidate onSubmit={handleSubmit(onSubmit)}>
               <Grid container spacing={2}>
                 <Grid item xs={12}>
                   <TextField
@@ -53,20 +65,30 @@ export default function Login(props) {
                     fullWidth
                     name="email"
                     id="email"
+                    error={!!errors.email}
+                    helperText={`${
+                      !!errors.email ? "Please enter email address" : ""
+                    }`}
+                    inputRef={register({ required: true })}
                     label="Email address"
                     autoComplete="email"
                   />
                 </Grid>
+
                 <Grid item xs={12}>
                   <TextField
                     variant="outlined"
                     required
                     fullWidth
+                    type="password"
                     name="password"
                     id="password"
+                    error={!!errors.password}
+                    helperText={`${
+                      !!errors.password ? "Please enter password" : ""
+                    }`}
+                    inputRef={register({ required: true })}
                     label="Password"
-                    type="password"
-                    autoComplete="current-password"
                   />
                 </Grid>
               </Grid>

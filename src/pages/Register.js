@@ -6,16 +6,7 @@ export default function RegisterPage() {
   return (
     <React.Fragment>
       <Title title="Register" />
-      <Register
-        content={{
-          brand: {
-            text: "Dhanai Fruits",
-            image: "mui-assets/img/logo-pied-piper.png",
-            width: "200",
-            height: "50",
-          },
-        }}
-      />
+      <Register content={null} />
     </React.Fragment>
   );
 }

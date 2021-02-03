@@ -8,21 +8,33 @@ import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 
 import useStyles from "./styles";
+import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
+import { userRegister } from "../../redux/user/user.actions";
 export default function Register(props) {
   const classes = useStyles();
-
+  const { register, handleSubmit, errors } = useForm({
+    reValidateMode: "onSubmit",
+    defaultValues: {}
+  });
+  const dispatch = useDispatch();
   const content = {
-    brand: { image: "mui-assets/img/logo-pied-piper.png", width: 40 },
+    brand: {
+      image: "mui-assets/img/logo.png",
+      width: 120
+    },
     "02_header": "Create a new account",
     "02_primary-action": "Sign up",
     "02_secondary-action": "Do you have an account?",
     "02_tertiary-action": "Forgot password?",
-    ...props.content,
+    ...props.content
   };
 
   let brand;
 
   if (content.brand.image) {
+    console.log(content.brand.image);
+
     brand = (
       <img
         src={content.brand.image}
@@ -32,8 +44,16 @@ export default function Register(props) {
       />
     );
   } else {
-    brand = content.brand.text || "";
+    brand = content.brand.text || "Dhanai Fruit Mart";
   }
+  const onSubmit = ({ name, email, password, avatar }) => {
+    const formData = new FormData();
+    formData.set("name", name);
+    formData.set("email", email);
+    formData.set("password", password);
+    formData.set("avatar", avatar);
+    dispatch(userRegister(formData));
+  };
 
   return (
     <section>
@@ -48,8 +68,29 @@ export default function Register(props) {
             </Typography>
           </Box>
           <Box>
-            <form noValidate>
+            <form
+              noValidate
+              onSubmit={handleSubmit(onSubmit)}
+              encType="multipart/form-data"
+            >
               <Grid container spacing={2}>
+                <Grid item xs={12}>
+                  <TextField
+                    variant="outlined"
+                    required
+                    fullWidth
+                    name="name"
+                    id="name"
+                    autoFocus={true}
+                    error={!!errors.name}
+                    helperText={`${
+                      !!errors.name ? "Please enter full name" : ""
+                    }`}
+                    inputRef={register({ required: true })}
+                    label="Full Name"
+                  />
+                </Grid>
+
                 <Grid item xs={12}>
                   <TextField
                     variant="outlined"
@@ -57,8 +98,30 @@ export default function Register(props) {
                     fullWidth
                     name="email"
                     id="email"
+                    error={!!errors.email}
+                    helperText={`${
+                      !!errors.email ? "Please enter email address" : ""
+                    }`}
+                    inputRef={register({ required: true })}
                     label="Email address"
                     autoComplete="email"
+                  />
+                </Grid>
+
+                <Grid item xs={12}>
+                  <TextField
+                    variant="outlined"
+                    required
+                    fullWidth
+                    type="password"
+                    name="password"
+                    id="password"
+                    error={!!errors.password}
+                    helperText={`${
+                      !!errors.password ? "Please enter password" : ""
+                    }`}
+                    inputRef={register({ required: true })}
+                    label="Password"
                   />
                 </Grid>
               </Grid>
