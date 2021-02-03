@@ -2,6 +2,7 @@ import axios from "axios";
 import history from "../../utils/history";
 import {
   userLoginTypes,
+  userLogoutTypes,
   userRegisterTypes,
   USER_SIGNOUT
 } from "./user.constants";
@@ -58,6 +59,11 @@ export const userRegister = (payload) => async (dispatch) => {
   }
 };
 
-export const signout = () => ({
-  type: USER_SIGNOUT
-});
+export const userLogut = () => async (dispatch) => {
+  try {
+    await axios.post(`${process.env.REACT_APP_API_URL}/users/logout`);
+    dispatch({ type: userLogoutTypes.USER_LOGOUT_SUCCESS });
+  } catch (error) {
+    console.error(error.message);
+  }
+};

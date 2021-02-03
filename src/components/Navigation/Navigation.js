@@ -22,7 +22,7 @@ import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
 
 import useStyles from "./styles";
 import { useDispatch, useSelector } from "react-redux";
-import { signout } from "../../redux/user/user.actions";
+import { userLogut } from "../../redux/user/user.actions";
 import { Menu, MenuItem } from "@material-ui/core";
 import { AccountCircle } from "@material-ui/icons";
 
@@ -34,9 +34,9 @@ const routerName = {
 
 const HorizontalNav = (props) => {
   const classes = useStyles();
-  const { userInfo, success } = useSelector((state) => state.user);
+  const { userInfo } = useSelector((state) => state.user);
   const dispatch = useDispatch();
-  const [auth, setAuth] = React.useState(true);
+  const [, setAuth] = React.useState(true);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
 
@@ -49,7 +49,7 @@ const HorizontalNav = (props) => {
     props.history.push(`/${routerName[newValue]}`);
   };
 
-  const toggleDrawer = (open) => (event) => {
+  const toggleDrawer = () => (event) => {
     if (
       event.type === "keydown" &&
       (event.key === "Tab" || event.key === "Shift")
@@ -73,12 +73,8 @@ const HorizontalNav = (props) => {
   }, [value]);
 
   const handleSignout = () => {
-    dispatch(signout());
+    dispatch(userLogut());
     props.history.push("/login");
-  };
-
-  const handleProfileChange = (event) => {
-    setAuth(event.target.checked);
   };
 
   const handleMenu = (event) => {

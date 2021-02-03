@@ -1,5 +1,6 @@
 import {
   userLoginTypes,
+  userLogoutTypes,
   userRegisterTypes,
   USER_SIGNOUT
 } from "./user.constants";
@@ -32,7 +33,8 @@ export const authReducer = (state = initialState, { type, payload }) => {
         loading: false,
         errorMessage: payload
       });
-    case USER_SIGNOUT:
+
+    case userLogoutTypes.USER_LOGIN_SUCCESS:
       return Object.assign({}, state, {
         userInfo: undefined,
         loading: false,
